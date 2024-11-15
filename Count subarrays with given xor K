@@ -1,0 +1,26 @@
+class Solution {
+    public int subarraysWithXorK(int[] nums, int k) {
+         int count = 0;
+        int prefixXOR = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        // Initialize the map to handle subarrays that start from index 0
+        map.put(0, 1);
+
+        for (int i = 0; i < nums.length; i++) {
+            // Calculate the cumulative XOR up to index i
+            prefixXOR ^= nums[i];
+            
+            // Check if prefixXOR ^ k exists in the map
+            int targetXOR = prefixXOR ^ k;
+            if (map.containsKey(targetXOR)) {
+                count += map.get(targetXOR);
+            }
+            
+            // Update the map with the current prefixXOR
+            map.put(prefixXOR, map.getOrDefault(prefixXOR, 0) + 1);
+        }
+        
+        return count;
+    }
+}
